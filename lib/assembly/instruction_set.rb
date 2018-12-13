@@ -1,4 +1,4 @@
-require_relative 'assembly_error.rb'
+require_relative 'assembly_error'
 
 module Assembly
   class InstructionSet

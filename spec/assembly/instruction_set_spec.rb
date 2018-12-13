@@ -10,7 +10,7 @@ describe Assembly::InstructionSet do
     PROGRAM
   end
 
-  describe '#initialize' do
+  describe 'initialization' do
     it 'separates the program by lines' do
       expect(instruction_set.instructions).to have(4).items
     end
