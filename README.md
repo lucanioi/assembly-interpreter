@@ -1,4 +1,6 @@
-We want to create an interpreter of assembler which will support the following instructions:
+# assembly-interpreter
+
+An interpreter of assembler which supports the following instructions:
 
 ```
 mov x, y - copy y (either an integer or the value of a register) into register x.
@@ -24,17 +26,19 @@ end - this instruction indicates that the program ends correctly, so the stored 
 ; comment - comments should not be taken in consideration during the execution of the program.
 ```
 
-Output format:
+## Output format
 The normal output format is a string (returned with the end command).
 
 If the program does finish itself without using an end instruction, the default return value is:
 
 -1 (as an integer)
 
-Input format:
+## Input format
 The function/method will take as input a multiline string of instructions, delimited with EOL characters. Please, note that the instructions may also have indentation for readability pourposes.
 
 For example:
+
+```
 
 program = "
 ; My first program
@@ -50,5 +54,9 @@ function:
 "
 
 assembler_interpreter(program)
+
+```
+
 The above code would set register a to 5, increase its value by 1, calls the subroutine function, divide its value by 2, returns to the first call instruction, prepares the output of the program and then returns it with the end instruction. In this case, the output would be (5+1)/2 = 3.
+
 
