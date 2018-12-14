@@ -1,6 +1,10 @@
+require_relative 'assembly_error'
+
 module Assembly
   class Program
-    attr_reader :instruction_pointer, :registry, :ret_target
+    EmptyReturnTarget = Class.new(AssemblyError)
+
+    attr_reader :instruction_pointer, :registry, :ret_targets
     attr_accessor :output, :last_cmp
 
     def initialize(instruction_set, registry)
@@ -8,7 +12,7 @@ module Assembly
       @registry = registry
 
       @instruction_pointer = 0
-      @ret_target = 0
+      @ret_targets = []
       @last_cmp = nil
       @output = nil
       @finished = false
@@ -16,11 +20,15 @@ module Assembly
 
     def proceed
       @instruction_pointer += 1
-      finish if current_instruction.end?
     end
 
     def jump_to_subprogram(subprogram)
+      ret_targets.push(instruction_pointer)
       @instruction_pointer = instruction_set.labels[subprogram]
+    end
+
+    def return_to_last_target
+      @instruction_pointer = ret_targets.pop || (raise EmptyReturnTarget)
     end
 
     def current_instruction
