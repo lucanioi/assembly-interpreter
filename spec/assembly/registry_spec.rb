@@ -33,13 +33,5 @@ describe Assembly::Registry do
         expect(&invalid_read).to raise_error invalid_register_error
       end
     end
-    
-    context 'when the given register is empty' do
-      it 'throws an empty register error' do
-        read_empty = proc { register.read(:e) }
-
-        expect(&read_empty).to raise_error empty_register_error
-      end
-    end
   end
 end

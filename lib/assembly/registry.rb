@@ -3,7 +3,6 @@ require_relative 'assembly_error'
 module Assembly
   class Registry
     InvalidRegister = Class.new(AssemblyError)
-    EmptyRegister = Class.new(AssemblyError)
 
     REGISTERS = (:a..:z).to_a.freeze
 
@@ -19,7 +18,7 @@ module Assembly
 
     def read(register)
       validate_register(register)
-      values[register] || (raise EmptyRegister)
+      values[register]
     end
 
     private
