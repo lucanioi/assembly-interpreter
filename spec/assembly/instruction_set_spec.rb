@@ -1,6 +1,6 @@
 describe Assembly::InstructionSet do
   let(:instruction_set) { described_class.new(raw_program) }
-  let(:out_of_bounds_error) { described_class::OutOfBounds }
+  let(:out_of_bounds_error) { Assembly::Errors::InstructionOutOfBounds }
   let(:raw_program) do
     <<~PROGRAM
       mov  a, 5

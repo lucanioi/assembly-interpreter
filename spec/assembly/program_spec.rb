@@ -3,7 +3,7 @@ describe Assembly::Program do
   let(:instruction_set) { double(:instruction_set) }
   let(:registry) { double(:registry) }
   let(:instruction) { double(:instruction) }
-  let(:empty_return_target_error) { described_class::EmptyReturnTarget }
+  let(:empty_return_target_error) { Assembly::Errors::EmptyReturnTarget }
 
   before do
     allow(instruction_set).to receive(:labels) do

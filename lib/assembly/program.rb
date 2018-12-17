@@ -1,9 +1,5 @@
-require_relative 'assembly_error'
-
 module Assembly
   class Program
-    EmptyReturnTarget = Class.new(AssemblyError)
-
     attr_reader :instruction_pointer, :registry, :ret_targets
     attr_accessor :output, :last_cmp
 
@@ -28,7 +24,7 @@ module Assembly
     end
 
     def return_to_last_target
-      @instruction_pointer = ret_targets.pop || (raise EmptyReturnTarget)
+      @instruction_pointer = ret_targets.pop || (raise Errors::EmptyReturnTarget)
     end
 
     def current_instruction

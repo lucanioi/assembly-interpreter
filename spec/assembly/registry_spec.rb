@@ -1,7 +1,6 @@
 describe Assembly::Registry do
   let(:register) { described_class.new }
-  let(:invalid_register_error) { described_class::InvalidRegister }
-  let(:empty_register_error) { described_class::EmptyRegister }
+  let(:invalid_register_error) { Assembly::Errors::InvalidRegister }
 
   describe '#insert' do
     it 'inserts the value at the given register' do

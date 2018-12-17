@@ -1,9 +1,5 @@
-require_relative 'assembly_error'
-
 module Assembly
   class InstructionSet
-    OutOfBounds = Class.new(AssemblyError)
-
     COMMENT_MATCHER = /;.*$/
     LABEL_MATCHER = /^[a-z_]+:$/
     EMPTY_STR = ''.freeze
@@ -18,7 +14,7 @@ module Assembly
     end
 
     def get(line_number)
-      raise OutOfBounds unless instruction = instructions[line_number]
+      raise Errors::InstructionOutOfBounds unless instruction = instructions[line_number]
       Instruction.new(instruction)
     end
 

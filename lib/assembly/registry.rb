@@ -1,9 +1,5 @@
-require_relative 'assembly_error'
-
 module Assembly
   class Registry
-    InvalidRegister = Class.new(AssemblyError)
-
     REGISTERS = (:a..:z).to_a.freeze
 
     def initialize
@@ -27,7 +23,7 @@ module Assembly
 
     def validate_register(register)
       unless REGISTERS.include?(register)
-        raise InvalidRegister, "Specified register is invalid; it must be one of the following: #{REGISTERS}"
+        raise Errors::InvalidRegister, "Specified register is invalid; it must be one of the following: #{REGISTERS}"
       end
     end
   end

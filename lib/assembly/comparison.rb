@@ -1,9 +1,5 @@
-require_relative 'assembly_error'
-
 module Assembly
   class Comparison
-    InvalidValue = Class.new(AssemblyError)
-
     def initialize(x, y)
       validate(x, y)
       @x = x
@@ -46,7 +42,7 @@ module Assembly
 
     def validate(x, y)
       unless x.is_a?(Integer) && y.is_a?(Integer)
-        raise InvalidValue, 'x and y must be integers.'
+        raise Errors::InvalidValue, 'x and y must be integers.'
       end
     end
   end
