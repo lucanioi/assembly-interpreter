@@ -16,17 +16,17 @@ describe Assembly::Program do
 
   describe '#current_instruction' do
     before do
-      allow(instruction_set).to receive(:get).with(program.instruction_pointer) { instruction }
+      allow(instruction_set).to receive(:get).with(subject.instruction_pointer) { instruction }
     end
 
     it 'retrieves the instruction at the current pointer' do
-      expect(program.current_instruction).to eq instruction
+      expect(subject.current_instruction).to eq instruction
     end
   end
 
   describe '#instruction_pointer' do
     it 'is set to 0 by default' do
-      expect(program.instruction_pointer).to eq 0
+      expect(subject.instruction_pointer).to eq 0
     end
   end
 
@@ -37,44 +37,44 @@ describe Assembly::Program do
     end
 
     it 'moves the instruction pointer down one line' do
-      program.proceed
+      subject.proceed
 
-      expect(program.instruction_pointer).to eq 1
+      expect(subject.instruction_pointer).to eq 1
     end
   end
 
   describe '#jump_to_subprogram' do
     it 'jumps the pointer to the first line of the given subprogram' do
-      program.jump_to_subprogram(:function)
+      subject.jump_to_subprogram(:function)
 
-      expect(program.instruction_pointer).to eq 15
+      expect(subject.instruction_pointer).to eq 15
     end
 
     it 'stores the current pointer as a return target' do
-      program.jump_to_subprogram(:function)
-      program.jump_to_subprogram(:print)
+      subject.jump_to_subprogram(:function)
+      subject.jump_to_subprogram(:print)
 
-      expect(program.ret_targets).to eq [0, 15]
+      expect(subject.ret_targets).to eq [0, 15]
     end
   end
 
   describe '#return_to_last_target' do
     context 'when there are return targets' do
       before do
-        program.jump_to_subprogram(:function)
-        program.jump_to_subprogram(:print)
+        subject.jump_to_subprogram(:function)
+        subject.jump_to_subprogram(:print)
       end
 
       it 'sets the pointer to the last return target' do
-        program.return_to_last_target
+        subject.return_to_last_target
 
-        expect(program.instruction_pointer).to eq 15
+        expect(subject.instruction_pointer).to eq 15
       end
     end
 
     context 'when there are no return targets' do
       it 'raises an error' do
-        return_to_nothing = proc { program.return_to_last_target }
+        return_to_nothing = proc { subject.return_to_last_target }
 
         expect(&return_to_nothing).to raise_error empty_return_target_error
       end
@@ -84,7 +84,7 @@ describe Assembly::Program do
   describe '#get_register' do
     context 'when given an integer' do
       it 'returns the given integer' do
-        expect(program.get_register(5)).to eq 5
+        expect(subject.get_register(5)).to eq 5
       end
     end
 
@@ -92,7 +92,7 @@ describe Assembly::Program do
       it 'returns returns the value at the register' do
         allow(registry).to receive(:read).with(:b) { 10 }
 
-        expect(program.get_register(:b)).to eq 10
+        expect(subject.get_register(:b)).to eq 10
       end
     end
   end
@@ -101,7 +101,7 @@ describe Assembly::Program do
     it 'inserts the value at the given register' do
       expect(registry).to receive(:insert).with(123, {at: :f})
 
-      program.set_register(:f, 123)
+      subject.set_register(:f, 123)
     end
   end
 end

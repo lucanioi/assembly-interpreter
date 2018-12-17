@@ -13,7 +13,7 @@ describe Assembly::Instructions::Cmp do
     end
 
     it 'sets the last cmp of the program with the given values' do
-      cmp_instruction.execute(program)
+      subject.execute(program)
 
       expected = Assembly::Comparison.new(10, 12)
       expect(program.last_cmp).to eq expected
@@ -22,7 +22,7 @@ describe Assembly::Instructions::Cmp do
     it 'increments the instruction pointer' do
       original_pointer = program.instruction_pointer
 
-      cmp_instruction.execute(program)
+      subject.execute(program)
 
       expected_pointer = original_pointer + 1
       expect(program.instruction_pointer).to eq expected_pointer
