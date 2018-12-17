@@ -46,6 +46,7 @@ module Assembly
 
     def finish
       @finished = true
+      freeze
     end
 
     private

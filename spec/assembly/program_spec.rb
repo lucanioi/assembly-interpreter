@@ -104,4 +104,18 @@ describe Assembly::Program do
       subject.set_register(:f, 123)
     end
   end
+
+  describe '#finish' do
+    it 'marks the program as finished' do
+      subject.finish
+
+      expect(subject).to be_finished
+    end
+
+    it 'freezes the program' do
+      subject.finish
+
+      expect(subject).to be_frozen
+    end
+  end
 end
