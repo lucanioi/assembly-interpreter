@@ -6,6 +6,7 @@ module Assembly
     EmptyRegister = Class.new(Error)
     InvalidRegister = Class.new(Error)
     EmptyReturnTarget = Class.new(Error)
+    InvalidIdentifier = Class.new(Error)
     InstructionOutOfBounds = Class.new(Error)
   end
 end

@@ -44,7 +44,7 @@ describe Assembly::Program do
   end
 
   describe '#jump_to_subprogram' do
-    it 'jumps the pointer to the first line of the given subprogram' do
+    it 'jumps the pointer to the label of the given subprogram' do
       subject.jump_to_subprogram(:function)
 
       expect(subject.instruction_pointer).to eq 15

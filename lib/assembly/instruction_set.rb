@@ -8,7 +8,7 @@ module Assembly
     attr_reader :instructions, :labels
 
     def initialize(raw_program)
-      @instructions = parse_instructions(raw_program)
+      @instructions = parse_instructions(raw_program).freeze
       @labels = {}
       scan_labels
     end
@@ -16,6 +16,10 @@ module Assembly
     def get(line_number)
       raise Errors::InstructionOutOfBounds unless instruction = instructions[line_number]
       Instruction.new(instruction)
+    end
+
+    def line_number(label:)
+      labels.fetch(label) { raise Errors::InvalidIdentifier }
     end
 
     private
@@ -35,6 +39,8 @@ module Assembly
       instructions.each_with_index do |instruction, index|
         add_label(instruction, index) if label?(instruction)
       end
+
+      labels.freeze
     end
 
     def label?(line)
