@@ -80,4 +80,28 @@ describe Assembly::Program do
       end
     end
   end
+
+  describe '#get_var' do
+    context 'when given an integer' do
+      it 'returns the given integer' do
+        expect(program.get_var(5)).to eq 5
+      end
+    end
+
+    context 'when given a register' do
+      it 'returns returns the value at the register' do
+        allow(registry).to receive(:read).with(:b) { 10 }
+
+        expect(program.get_var(:b)).to eq 10
+      end
+    end
+  end
+
+  describe '#set_var' do
+    it 'inserts the value at the given register' do
+      expect(registry).to receive(:insert).with(123, {at: :f})
+
+      program.set_var(:f, 123)
+    end
+  end
 end

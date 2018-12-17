@@ -14,6 +14,15 @@ module Assembly
       @finished = false
     end
 
+    def get_var(value_or_variable)
+      return value_or_variable if value_or_variable.is_a? Integer
+      registry.read(value_or_variable)
+    end
+
+    def set_var(variable, value)
+      registry.insert(value, at: variable)
+    end
+
     def proceed
       @instruction_pointer += 1
     end
