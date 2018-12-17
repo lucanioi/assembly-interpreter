@@ -40,6 +40,21 @@ describe Assembly::Program do
     end
   end
 
+  describe '#call_subprogram' do
+    it 'jumps the pointer to the label of the given subprogram' do
+      subject.call_subprogram(:function)
+
+      expect(subject.instruction_pointer).to eq 15
+    end
+
+    it 'stores the current pointer as a return target' do
+      subject.call_subprogram(:function)
+      subject.call_subprogram(:print)
+
+      expect(subject.ret_targets).to eq [0, 15]
+    end
+  end
+
   describe '#jump_to_subprogram' do
     it 'jumps the pointer to the label of the given subprogram' do
       subject.jump_to_subprogram(:function)
@@ -47,19 +62,19 @@ describe Assembly::Program do
       expect(subject.instruction_pointer).to eq 15
     end
 
-    it 'stores the current pointer as a return target' do
+    it 'does not add to return targets' do
       subject.jump_to_subprogram(:function)
       subject.jump_to_subprogram(:print)
 
-      expect(subject.ret_targets).to eq [0, 15]
+      expect(subject.ret_targets).to eq []
     end
   end
 
   describe '#return_to_last_target' do
     context 'when there are return targets' do
       before do
-        subject.jump_to_subprogram(:function)
-        subject.jump_to_subprogram(:print)
+        subject.call_subprogram(:function)
+        subject.call_subprogram(:print)
       end
 
       it 'sets the pointer to the last return target' do
