@@ -3,6 +3,7 @@ require 'rspec/collection_matchers'
 $LOAD_PATH.unshift('lib')
 
 require 'assembly'
+require 'pry'
 
 module Assembly
   module SpecHelper

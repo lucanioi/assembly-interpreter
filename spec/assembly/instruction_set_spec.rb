@@ -13,7 +13,7 @@ describe Assembly::InstructionSet do
 
   describe 'initialization' do
     it 'separates the program by lines' do
-      expect(subject.instructions).to have(4).items
+      expect(get_instructions(instruction_set)).to have(4).items
     end
 
     context 'when program includes comments' do
@@ -28,7 +28,7 @@ describe Assembly::InstructionSet do
       end
 
       it 'omits the comments from the instruction lines' do
-        expect(subject.instructions).to have(4).items
+        expect(get_instructions(instruction_set)).to have(4).items
       end
     end
 
@@ -60,11 +60,11 @@ describe Assembly::InstructionSet do
       end
 
       it 'includes the lables in the list of instructions' do
-        expect(subject.instructions).to have(12).items
+        expect(get_instructions(instruction_set)).to have(12).items
       end
 
-      it 'scans for labels while taking note of the first line number of its subprogram' do
-        expect(subject.labels).to eq(labels)
+      it 'scans for labels and records their line numbers' do
+        expect(subject.send(:labels)).to eq(labels)
       end
     end
   end
@@ -124,5 +124,9 @@ describe Assembly::InstructionSet do
         expect(&invalid_label_call).to raise_error invalid_label_error
       end
     end
+  end
+
+  def get_instructions(instruction_set)
+    instruction_set.send(:instructions)
   end
 end

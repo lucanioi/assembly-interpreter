@@ -5,8 +5,6 @@ module Assembly
     EMPTY_STR = ''.freeze
     LABEL_DELIMITER = ':'.freeze
 
-    attr_reader :instructions, :labels
-
     def initialize(raw_program)
       @instructions = parse_instructions(raw_program).freeze
       @labels = {}
@@ -23,6 +21,8 @@ module Assembly
     end
 
     private
+
+    attr_reader :instructions, :labels
 
     def parse_instructions(raw_program)
       remove_comments(raw_program)
