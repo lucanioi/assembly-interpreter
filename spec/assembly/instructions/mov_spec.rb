@@ -3,11 +3,9 @@ describe Assembly::Instructions::Mov do
   let(:register) { :a }
   let(:value) { 10 }
   let(:program) { double(:program) }
-  let(:registry) { double(:registry) }
+  let(:registry) { Assembly::Registry.new }
 
   before do
-    allow(registry).to receive(:read)
-    allow(registry).to receive(:insert)
     allow(program).to receive(:registry) { registry }
     allow(program).to receive(:proceed)
   end
@@ -26,9 +24,11 @@ describe Assembly::Instructions::Mov do
     context 'if initialized with a register and another register' do
       let(:value) { :b }
 
-      it 'copies the value in to the register' do
-        allow(registry).to receive(:read).with(:b) { 90 }
+      before do
+        registry.insert(90, at: :b)
+      end
 
+      it 'copies the value in to the register' do
         expect(registry).to receive(:insert).with(90, {at: register})
 
         subject.execute(program)

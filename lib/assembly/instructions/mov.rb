@@ -7,7 +7,7 @@ module Assembly
       end
 
       def execute(program)
-        value = program.registry.read(value_or_register) || value_or_register
+        value = value_or_register.is_a?(Integer) ? value_or_register : program.registry.read(value_or_register)
         program.registry.insert(value, at: register)
         program.proceed
       end
