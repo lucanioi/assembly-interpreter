@@ -6,12 +6,9 @@ describe Assembly::Program do
   let(:empty_return_target_error) { Assembly::Errors::EmptyReturnTarget }
 
   before do
-    allow(instruction_set).to receive(:labels) do
-      {
-        function: 15,
-        print: 20
-      }
-    end
+    allow(instruction_set).to receive(:line_number) { nil }
+    allow(instruction_set).to receive(:line_number).with({label: :function}) { 15 }
+    allow(instruction_set).to receive(:line_number).with({label: :print}) { 20 }
   end
 
   describe '#current_instruction' do

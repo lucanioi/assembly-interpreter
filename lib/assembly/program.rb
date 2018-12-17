@@ -29,7 +29,7 @@ module Assembly
 
     def jump_to_subprogram(subprogram)
       ret_targets.push(instruction_pointer)
-      @instruction_pointer = instruction_set.labels[subprogram]
+      @instruction_pointer = instruction_set.line_number(label: subprogram)
     end
 
     def return_to_last_target
