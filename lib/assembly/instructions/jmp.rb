@@ -6,11 +6,18 @@ module Assembly
       end
 
       def execute(program)
-        program.jump_to_subprogram(label)
+        if desired_last_cmp?(program)
+          program.jump_to_subprogram(label)
+        end
+
         program.proceed
       end
 
       private
+
+      def desired_last_cmp?(_program)
+        true
+      end
 
       attr_reader :label
     end

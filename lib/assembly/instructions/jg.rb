@@ -1,21 +1,13 @@
+require_relative 'jmp'
+
 module Assembly
   module Instructions
-    class Jg
-      def initialize(label)
-        @label = label
-      end
-
-      def execute(program)
-        if program.last_cmp.greater?
-          program.jump_to_subprogram(label)
-        end
-
-        program.proceed
-      end
-
+    class Jg < Jmp
       private
 
-      attr_reader :label
+      def desired_last_cmp?(program)
+        program.last_cmp.greater?
+      end
     end
   end
 end
