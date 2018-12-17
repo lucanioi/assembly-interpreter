@@ -1,23 +1,24 @@
-# describe Assembly::Instructions::Jmp do
-#   subject(:jmp_instruction) { described_class.new(label) }
-#   let(:label) { :function }
-#   let(:program) { double(:program) }
+describe Assembly::Instructions::Jmp do
+  subject(:jmp_instruction) { described_class.new(label) }
+  let(:label) { :function }
+  let(:program) { double(:program) }
 
-#   describe '#execute' do
-#     it 'sets the last cmp of the program with the given values' do
-#       subject.execute(program)
+  before do
+    allow(program).to receive(:jump_to_subprogram)
+    allow(program).to receive(:proceed)
+  end
 
-#       expected = Assembly::Comparison.new(10, 12)
-#       expect(program.last_cmp).to eq expected
-#     end
+  describe '#execute' do
+    it 'jumps to the subprogram at the given label' do
+      expect(program).to receive(:jump_to_subprogram).with(label)
 
-#     it 'increments the instruction pointer' do
-#       original_pointer = program.instruction_pointer
+      subject.execute(program)
+    end
 
-#       subject.execute(program)
+    it 'increments the instruction pointer' do
+      expect(program).to receive(:proceed)
 
-#       expected_pointer = original_pointer + 1
-#       expect(program.instruction_pointer).to eq expected_pointer
-#     end
-#   end
-# end
+      subject.execute(program)
+    end
+  end
+end
