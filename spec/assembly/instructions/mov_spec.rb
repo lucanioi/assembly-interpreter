@@ -36,7 +36,7 @@ describe Assembly::Instructions::Mov do
     end
 
     it 'tells the program to proceed' do
-      expect(program).to receive(:proceed)
+      expect(program).to receive(:proceed).once
 
       subject.execute(program)
     end
