@@ -46,4 +46,19 @@ module Assembly
       end
     end
   end
+
+  class NilComparison
+    def nil?; true end
+
+    def greater?; false end
+    def greater_or_equal?; false end
+    def equality?; false end
+    def less_or_equal?; false end
+    def less?; false end
+    def inequality?; false end
+
+    def ==(other)
+      other.nil?
+    end
+  end
 end

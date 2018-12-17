@@ -9,7 +9,7 @@ module Assembly
 
       @instruction_pointer = 0
       @ret_targets = []
-      @last_cmp = nil
+      @last_cmp = NilComparison.new
       @output = nil
       @finished = false
     end
