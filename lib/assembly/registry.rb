@@ -14,7 +14,7 @@ module Assembly
 
     def read(register)
       validate_register(register)
-      values[register]
+      values[register] || (raise Errors::EmptyRegister)
     end
 
     private

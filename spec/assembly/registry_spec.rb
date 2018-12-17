@@ -1,6 +1,7 @@
 describe Assembly::Registry do
   let(:register) { described_class.new }
   let(:invalid_register_error) { Assembly::Errors::InvalidRegister }
+  let(:empty_register_error) { Assembly::Errors::EmptyRegister }
 
   describe '#insert' do
     it 'inserts the value at the given register' do
@@ -30,6 +31,14 @@ describe Assembly::Registry do
         invalid_read = proc { register.read(:invalid) }
 
         expect(&invalid_read).to raise_error invalid_register_error
+      end
+    end
+
+    context 'when there the register is empty' do
+      it 'throws an empty register error' do
+        empty_read = proc { register.read(:g) }
+
+        expect(&empty_read).to raise_error empty_register_error
       end
     end
   end
