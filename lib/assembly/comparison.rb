@@ -34,6 +34,14 @@ module Assembly
       x != y
     end
 
+    def ==(other)
+      x == other.x && y == other.y
+    end
+
+    protected
+
+    attr_reader :x, :y
+
     private
 
     def validate(x, y)
@@ -41,7 +49,5 @@ module Assembly
         raise InvalidValue, 'x and y must be integers.'
       end
     end
-
-    attr_reader :x, :y
   end
 end
