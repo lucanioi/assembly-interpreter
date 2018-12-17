@@ -1,27 +1,28 @@
 describe Assembly::Instructions::Dec do
-  subject(:inc_instruction) { described_class.new(register) }
+  subject(:dec_instruction) { described_class.new(register) }
   let(:register) { :a }
-  let(:program) { double(:program) }
-  let(:registry) { double(:registry) }
+  let(:program) { Assembly::Program.new(instruction_set, registry) }
+  let(:registry) { Assembly::Registry.new }
+  let(:instruction_set) { double(:instruction_set) }
 
   before do
-    allow(registry).to receive(:read) { -18 }
-    allow(registry).to receive(:insert)
-    allow(program).to receive(:registry) { registry }
-    allow(program).to receive(:proceed)
+    program.set_register(register, -18)
   end
 
   describe '#execute' do
     it 'decrements the value in the register by one' do
-      expect(registry).to receive(:insert).with(-19, {at: :a})
+      subject.execute(program)
 
-      inc_instruction.execute(program)
+      expect(program.get_register(register)).to eq -19
     end
 
-    it 'tells the program to proceed' do
-      expect(program).to receive(:proceed).once
+    it 'decrements the instruction pointer' do
+      original_pointer = program.instruction_pointer
 
       subject.execute(program)
+
+      expected_pointer = original_pointer + 1
+      expect(program.instruction_pointer).to eq expected_pointer
     end
   end
 end

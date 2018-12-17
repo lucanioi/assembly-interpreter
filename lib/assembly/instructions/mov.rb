@@ -1,20 +1,20 @@
 module Assembly
   module Instructions
     class Mov
-      def initialize(register, value_or_register)
+      def initialize(register, value)
         @register = register
-        @value_or_register = value_or_register
+        @value = value
       end
 
       def execute(program)
-        value = value_or_register.is_a?(Integer) ? value_or_register : program.registry.read(value_or_register)
-        program.registry.insert(value, at: register)
+        v = program.get_register(value)
+        program.set_register(register, v)
         program.proceed
       end
 
       private
 
-      attr_reader :register, :value_or_register
+      attr_reader :register, :value
     end
   end
 end

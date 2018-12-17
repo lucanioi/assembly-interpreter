@@ -6,8 +6,8 @@ module Assembly
       end
 
       def execute(program)
-        value = program.registry.read(register)
-        program.registry.insert(value + 1, at: register)
+        value = program.get_register(register)
+        program.set_register(register, value + 1)
         program.proceed
       end
 

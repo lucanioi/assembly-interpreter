@@ -7,8 +7,8 @@ module Assembly
       end
 
       def execute(program)
-        x_val = x.is_a?(Integer) ? x : program.registry.read(x)
-        y_val = y.is_a?(Integer) ? y : program.registry.read(y)
+        x_val = program.get_register(x)
+        y_val = program.get_register(y)
         program.last_cmp = Comparison.new(x_val, y_val)
         program.proceed
       end

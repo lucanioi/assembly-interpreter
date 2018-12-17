@@ -1,42 +1,31 @@
 describe Assembly::Instructions::Cmp do
   subject(:cmp_instruction) { described_class.new(x, y) }
-  let(:x) { 10 }
-  let(:y) { 12 }
+  let(:x) { :b }
+  let(:y) { :g }
   let(:program) { Assembly::Program.new(instruction_set, registry) }
-  let(:registry) { double(:registry) }
+  let(:registry) { Assembly::Registry.new }
   let(:instruction_set) { double(:instruction_set) }
 
   describe '#execute' do
-    context 'when the given values are integers' do
-      it 'sets the last cmp of the program with the integers' do
-        cmp_instruction.execute(program)
-
-        expected = Assembly::Comparison.new(x, y)
-        expect(program.last_cmp).to eq expected
-      end
+    before do
+      program.set_register(x, 10)
+      program.set_register(y, 12)
     end
 
-    context 'when the given values are registers' do
-      let(:x) { :a }
-      let(:y) { :b }
+    it 'sets the last cmp of the program with the given values' do
+      cmp_instruction.execute(program)
 
-      before do
-        allow(registry).to receive(:read).with(:a) { 8 }
-        allow(registry).to receive(:read).with(:b) { 12 }
-      end
-
-      it 'sets the last cmp of the program' do
-        cmp_instruction.execute(program)
-
-        expected = Assembly::Comparison.new(8, 12)
-        expect(program.last_cmp).to eq expected
-      end
+      expected = Assembly::Comparison.new(10, 12)
+      expect(program.last_cmp).to eq expected
     end
 
-    it 'calls proceed on the program' do
-      expect(program).to receive(:proceed).once
+    it 'increments the instruction pointer' do
+      original_pointer = program.instruction_pointer
 
       cmp_instruction.execute(program)
+
+      expected_pointer = original_pointer + 1
+      expect(program.instruction_pointer).to eq expected_pointer
     end
   end
 end
