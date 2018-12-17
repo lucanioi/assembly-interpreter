@@ -27,7 +27,6 @@ module Assembly
       @instruction_pointer += 1
     end
 
-    # TODO: jump should not be putting references to ret targets
     def call_subprogram(subprogram)
       ret_targets.push(instruction_pointer)
       jump_to_subprogram(subprogram)
