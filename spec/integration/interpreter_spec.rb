@@ -1,5 +1,5 @@
-xdescribe "Integration" do
-  let(:interpreter) { Assembly::Interpreter.new }
+describe Assembly::Interpreter do
+  let(:interpreter) { described_module }
 
   describe '#interpret' do
     it 'simple program' do
@@ -187,7 +187,7 @@ xdescribe "Integration" do
             je    continue
             mul   c, a
             dec   d
-            call  proc_func
+            jmp  proc_func
 
         continue:
             ret
@@ -196,6 +196,8 @@ xdescribe "Integration" do
             msg a, '^', b, ' = ', c
             ret
       PROGRAM
+
+      # should workd with 'call proc_func' on line 12
 
       expect(interpreter.interpret(exponent_program)).to eq('2^10 = 1024')
     end
