@@ -5,8 +5,7 @@ module Assembly
         program = setup_program(raw_program)
 
         until program.finished?
-          instruction = program.current_instruction
-          instruction.execute(program)
+          program.current_instruction.execute(program)
         end
 
         return program.output
