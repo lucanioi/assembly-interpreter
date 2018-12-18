@@ -13,8 +13,7 @@ module Assembly
       end
 
       def ==(other)
-        super &&
-          arguments == other.arguments
+        super && arguments == other.arguments
       end
 
       protected

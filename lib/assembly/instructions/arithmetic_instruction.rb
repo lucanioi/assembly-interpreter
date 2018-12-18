@@ -19,8 +19,8 @@ module Assembly
 
       def ==(other)
         super &&
-        target_register == other.target_register &&
-        source_register == other.source_register
+          target_register == other.target_register &&
+          source_register == other.source_register
       end
 
       protected

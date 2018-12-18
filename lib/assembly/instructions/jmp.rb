@@ -8,16 +8,12 @@ module Assembly
       end
 
       def execute(program)
-        if desired_last_cmp?(program)
-          program.jump_to_subprogram(label)
-        end
-
+        desired_last_cmp?(program) && program.jump_to_subprogram(label)
         program.proceed
       end
 
       def ==(other)
-        super &&
-        label == other.label
+        super && label == other.label
       end
 
       protected
