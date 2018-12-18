@@ -41,7 +41,7 @@ module Assembly
 
         def extract_instruction(raw_line)
           inst = INSTRUCTIONS.find { |instruction| raw_line.strip.start_with? instruction }
-          inst || (raise Errors::InvalidInstruction)
+          inst || (raise Errors::InvalidInstruction, "#{raw_line} is an invalid instruction.")
         end
 
         def extract_arguments(raw_line)
@@ -60,7 +60,9 @@ module Assembly
           when MATCHERS[:register] then arg.to_sym
           when MATCHERS[:integer] then arg.to_i
           when MATCHERS[:string] then $1
-          else raise Errors::InvalidInstruction
+          when MATCHERS[:subprogram] then arg.to_sym
+          else
+            raise Errors::InvalidInstruction, "\"#{arg}\" is an invalid argument."
           end
         end
       end
