@@ -9,10 +9,10 @@ module Assembly
           instruction.execute(program)
         end
 
-        program.output
+        return program.output
 
       rescue Assembly::Errors::Error
-        -1
+        return -1
       end
 
       private
