@@ -1,6 +1,8 @@
+require_relative 'instruction'
+
 module Assembly
   module Instructions
-    class ArithmeticInstruction
+    class ArithmeticInstruction < Instruction
       def initialize(target_register, source_register)
         @target_register = target_register
         @source_register = source_register
@@ -15,7 +17,13 @@ module Assembly
         program.proceed
       end
 
-      private
+      def ==(other)
+        target_register == other.target_register &&
+          source_register == other.source_register &&
+          super
+      end
+
+      protected
 
       attr_reader :target_register, :source_register
     end

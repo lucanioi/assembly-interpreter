@@ -1,6 +1,8 @@
+require_relative 'instruction'
+
 module Assembly
   module Instructions
-    class Cmp
+    class Cmp < Instruction
       def initialize(x, y)
         @x = x
         @y = y
@@ -13,7 +15,13 @@ module Assembly
         program.proceed
       end
 
-      private
+      def ==(other)
+        super &&
+          x == other.x &&
+          y == other.y
+      end
+
+      protected
 
       attr_reader :x, :y
     end

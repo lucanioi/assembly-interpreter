@@ -71,15 +71,15 @@ describe Assembly::InstructionSet do
 
   describe '#get' do
     let(:instruction) { double(:instruction) }
-    let(:instruction_klass) { double(:instruction_klass) }
+    let(:instruction_factory) { double(:instruction_factory) }
 
     before do
-      stub_const('Assembly::Instruction', instruction_klass)
-      allow(instruction_klass).to receive(:new) { instruction }
+      stub_const('Assembly::Instructions::Factory', instruction_factory)
+      allow(instruction_factory).to receive(:create) { instruction }
     end
 
     it 'returns the instruction at the given line number' do
-      expect(instruction_klass).to receive(:new).with('mov  a, 5')
+      expect(instruction_factory).to receive(:create).with('mov  a, 5')
 
       expect(subject.get(0)).to eq instruction
     end

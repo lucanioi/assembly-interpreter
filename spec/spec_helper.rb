@@ -1,9 +1,10 @@
 require 'rspec/collection_matchers'
+require 'pry'
 
 $LOAD_PATH.unshift('lib')
 
 require 'assembly'
-require 'pry'
+require 'helpers/extensions'
 
 module Assembly
   module SpecHelper
@@ -11,7 +12,7 @@ module Assembly
 
     def configure_rspec
       RSpec.configure do |config|
-        # ...
+        config.include Extensions
       end
     end
   end

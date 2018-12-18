@@ -1,3 +1,5 @@
+require_relative 'instructions/factory'
+
 module Assembly
   class InstructionSet
     COMMENT_MATCHER = /;.*$/
@@ -12,8 +14,9 @@ module Assembly
     end
 
     def get(line_number)
-      raise Errors::InstructionOutOfBounds unless instruction = instructions[line_number]
-      Instruction.new(instruction)
+      instruction = instructions[line_number]
+      raise Errors::InstructionOutOfBounds if instruction.nil?
+      Instructions::Factory.create(instruction)
     end
 
     def line_number(label:)

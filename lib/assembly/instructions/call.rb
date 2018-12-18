@@ -1,6 +1,8 @@
+require_relative 'instruction'
+
 module Assembly
   module Instructions
-    class Call
+    class Call < Instruction
       def initialize(label)
         @label = label
       end
@@ -9,6 +11,12 @@ module Assembly
         program.call_subprogram(label)
         program.proceed
       end
+
+      def ==(other)
+        super && label == other.label
+      end
+
+      protected
 
       attr_reader :label
     end

@@ -11,7 +11,12 @@ module Assembly
         program.proceed
       end
 
-      private
+      def ==(other)
+        self.class == other.class &&
+        register == register
+      end
+
+      protected
 
       attr_reader :register
     end

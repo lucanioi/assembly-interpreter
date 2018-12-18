@@ -1,6 +1,8 @@
+require_relative 'instruction'
+
 module Assembly
   module Instructions
-    class Jmp
+    class Jmp < Instruction
       def initialize(label)
         @label = label
       end
@@ -13,13 +15,20 @@ module Assembly
         program.proceed
       end
 
+      def ==(other)
+        super &&
+        label == other.label
+      end
+
+      protected
+
+      attr_reader :label
+
       private
 
       def desired_last_cmp?(_program)
         true
       end
-
-      attr_reader :label
     end
   end
 end

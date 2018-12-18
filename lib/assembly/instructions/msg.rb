@@ -1,6 +1,8 @@
+require_relative 'instruction'
+
 module Assembly
   module Instructions
-    class Msg
+    class Msg < Instruction
       def initialize(*arguments)
         @arguments = arguments
       end
@@ -10,9 +12,16 @@ module Assembly
         program.proceed
       end
 
-      private
+      def ==(other)
+        super &&
+          arguments == other.arguments
+      end
+
+      protected
 
       attr_reader :arguments
+
+      private
 
       def concoct_message(program)
         arguments.map do |argument|

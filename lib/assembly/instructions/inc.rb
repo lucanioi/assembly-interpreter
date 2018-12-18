@@ -1,6 +1,8 @@
+require_relative 'instruction'
+
 module Assembly
   module Instructions
-    class Inc
+    class Inc < Instruction
       def initialize(register)
         @register = register
       end
@@ -9,6 +11,10 @@ module Assembly
         value = program.get_register(register)
         program.set_register(register, value + 1)
         program.proceed
+      end
+
+      def ==(other)
+        super && register == register
       end
 
       private
