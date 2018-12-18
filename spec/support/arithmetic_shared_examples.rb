@@ -3,7 +3,7 @@ OPERATORS = {
   division: :/,
   addition: :+,
   subtraction: :-
-}
+}.freeze
 
 shared_examples 'arithmetic operation' do |operation|
   subject(:instruction) { described_class.new(target_register, source_register) }
