@@ -2,10 +2,7 @@ module Assembly
   module Interpreter
     class << self
       def interpret(raw_program)
-        instruction_set = InstructionSet.new(raw_program)
-        registry = Registry.new
-
-        program = Program.new(instruction_set, registry)
+        program = setup_program(raw_program)
 
         until program.finished?
           instruction = program.current_instruction
@@ -14,8 +11,16 @@ module Assembly
 
         program.output
 
-      rescue Errors::Error
+      rescue Assembly::Errors::Error
         -1
+      end
+
+      private
+
+      def setup_program(raw_program)
+        instruction_set = InstructionSet.new(raw_program)
+        registry = Registry.new
+        Program.new(instruction_set, registry)
       end
     end
   end
