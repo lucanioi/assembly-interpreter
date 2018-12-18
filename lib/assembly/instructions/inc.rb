@@ -14,7 +14,7 @@ module Assembly
       end
 
       def ==(other)
-        super && register == register
+        super && register == other.register
       end
 
       private
