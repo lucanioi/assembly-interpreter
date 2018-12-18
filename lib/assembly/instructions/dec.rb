@@ -1,6 +1,6 @@
 module Assembly
   module Instructions
-    class Dec
+    class Dec < Instruction
       def initialize(register)
         @register = register
       end
@@ -12,8 +12,7 @@ module Assembly
       end
 
       def ==(other)
-        self.class == other.class &&
-        register == register
+        super && register == register
       end
 
       protected
