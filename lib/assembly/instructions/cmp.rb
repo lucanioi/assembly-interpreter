@@ -17,8 +17,8 @@ module Assembly
 
       def ==(other)
         super &&
-          x == other.x &&
-          y == other.y
+        x == other.x &&
+        y == other.y
       end
 
       protected
