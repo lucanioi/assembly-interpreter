@@ -1,3 +1,7 @@
+def parse_comparison_method(desired_cmp)
+  desired_cmp.to_s.delete_suffix('?').gsub('_', ' ')
+end
+
 shared_examples 'jump if last cmp was' do |desired_cmp|
   subject(:jmp_instruction) { described_class.new(label) }
   let(:label) { :function }
@@ -12,7 +16,7 @@ shared_examples 'jump if last cmp was' do |desired_cmp|
   end
 
   describe '#execute' do
-    context 'when last comparison was greater or equal' do
+    context "when last comparison was #{parse_comparison_method(desired_cmp)}" do
       it 'jumps to the subprogram at the given label' do
         expect(program).to receive(:jump_to_subprogram).with(label)
 
@@ -20,7 +24,7 @@ shared_examples 'jump if last cmp was' do |desired_cmp|
       end
     end
 
-    context 'when last comparison was not greater or equal' do
+    context "when last comparison was not #{parse_comparison_method(desired_cmp)}" do
       before do
         allow(cmp).to receive(desired_cmp) { false }
       end
