@@ -59,7 +59,7 @@ module Assembly
           case arg
           when MATCHERS[:register] then arg.to_sym
           when MATCHERS[:integer] then arg.to_i
-          when MATCHERS[:string] then $1
+          when MATCHERS[:string] then arg.delete_prefix("'").delete_suffix("'")
           when MATCHERS[:subprogram] then arg.to_sym
           else
             raise Errors::InvalidInstruction, "\"#{arg}\" is an invalid argument."
