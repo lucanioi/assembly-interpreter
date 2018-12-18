@@ -29,7 +29,7 @@ module Assembly
 
       private
 
-      def compute(x_value, y_value)
+      def compute(_x_value, _y_value)
         raise NotImplementedError
       end
     end
