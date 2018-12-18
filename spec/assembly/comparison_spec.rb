@@ -2,13 +2,14 @@ require 'support/comparison_shared_examples'
 
 describe Assembly::Comparison do
   subject(:comparison) { described_class.new(x, y) }
+  let(:invalid_values_error) { Assembly::Errors::InvalidValue }
 
   describe 'initialization' do
     let(:x) { 'x' }
     let(:y) { :y }
 
     it 'cannot be initialized by non-Integer values' do
-      expect { subject }.to raise_error
+      expect { subject }.to raise_error invalid_values_error
     end
   end
 
