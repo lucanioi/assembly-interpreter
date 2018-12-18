@@ -16,6 +16,7 @@ module Assembly
 
     def get_register(value_or_variable)
       return value_or_variable if value_or_variable.is_a? Integer
+
       registry.read(value_or_variable)
     end
 
