@@ -41,7 +41,7 @@ describe Assembly::InstructionSet do
           call print
           end
 
-          function:
+          function1:
             mov a, b
             inc a
             ret
@@ -54,8 +54,8 @@ describe Assembly::InstructionSet do
 
       let(:labels) do
         {
-          function: 6,
-          print: 10
+          function1: 5,
+          print: 9
         }
       end
 
@@ -114,7 +114,7 @@ describe Assembly::InstructionSet do
     it 'returns the line number of the given label' do
       actual_line_number = subject.line_number(label: :function)
 
-      expect(actual_line_number).to eq 6
+      expect(actual_line_number).to eq 5
     end
 
     context 'when given label doesn\'t exist' do

@@ -1,9 +1,9 @@
-require_relative 'instructions/factory'
+ require_relative 'instructions/factory'
 
 module Assembly
   class InstructionSet
     COMMENT_MATCHER = /;.*$/
-    LABEL_MATCHER = /^[a-z_]+:$/
+    LABEL_MATCHER = /^[a-z1-9_]+:$/
     EMPTY_STR = ''.freeze
     LABEL_DELIMITER = ':'.freeze
 
@@ -52,8 +52,7 @@ module Assembly
 
     def add_label(label, label_index)
       label = label.delete_suffix(LABEL_DELIMITER).to_sym
-      first_line_of_subprogram = label_index + 1
-      labels[label] = first_line_of_subprogram
+      labels[label] = label_index
     end
   end
 end
