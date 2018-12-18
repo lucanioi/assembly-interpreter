@@ -6,12 +6,16 @@ module Assembly
       end
 
       def to_s
-        arguments = instance_variables.map { |v| instance_variable_get(v) }
-        arguments.map! do |arg|
-          arg.is_a?(String) ? "'#{arg}'" : arg
-        end
+        arguments =
+          instance_variables
+            .map { |v| instance_variable_get(v) }
+            .map { |arg| arg.is_a?(String) ? "'#{arg}'" : arg }
 
-        instruction_name = self.class.name.delete_prefix('Assembly::Instructions::').downcase
+        instruction_name =
+          self.class
+            .name
+            .delete_prefix('Assembly::Instructions::')
+            .downcase
 
         "#{instruction_name}  #{arguments.join(', ')}"
       end
