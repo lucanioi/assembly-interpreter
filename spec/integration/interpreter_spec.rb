@@ -73,7 +73,7 @@ xdescribe "Integration" do
 
         print:
             msg   'Term ', a, ' of Fibonacci series is: ', b        ; output text
-            ret      
+            ret
       PROGRAM
 
       expect(interpreter.interpret(fibonacci_program)).to eq('Term 8 of Fibonacci series is: 21')
@@ -94,7 +94,7 @@ xdescribe "Integration" do
             mul   c, b
             mov   d, a        ; temp2
             sub   d, c
-            ret        
+            ret
       PROGRAM
 
       expect(interpreter.interpret(modulo_program)).to eq('mod(11, 3) = 2')
@@ -146,7 +146,7 @@ xdescribe "Integration" do
 
         print:
             msg   'gcd(', a, ', ', b, ') = ', c
-            ret      
+            ret
       PROGRAM
 
       expect(interpreter.interpret(gcd_program)).to eq('gcd(81, 153) = 9')
@@ -166,7 +166,7 @@ xdescribe "Integration" do
             ret
 
         print:
-            msg 'This program should return -1' 
+            msg 'This program should return -1'
       PROGRAM
 
       expect(interpreter.interpret(fail_program)).to eq(-1)
@@ -194,7 +194,7 @@ xdescribe "Integration" do
 
         print:
             msg a, '^', b, ' = ', c
-            ret      
+            ret
       PROGRAM
 
       expect(interpreter.interpret(exponent_program)).to eq('2^10 = 1024')
