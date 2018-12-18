@@ -8,10 +8,9 @@ module Assembly
           program.current_instruction.execute(program)
         end
 
-        return program.output
-
+        program.output
       rescue Assembly::Errors::Error
-        return -1
+        -1
       end
 
       private
