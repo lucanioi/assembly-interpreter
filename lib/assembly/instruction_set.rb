@@ -3,7 +3,7 @@
 module Assembly
   class InstructionSet
     COMMENT_MATCHER = /;.*$/
-    LABEL_MATCHER = /^[a-z1-9_]+:$/
+    LABEL_MATCHER = /^[a-z0-9_]+:$/
     EMPTY_STR = ''.freeze
     LABEL_DELIMITER = ':'.freeze
 

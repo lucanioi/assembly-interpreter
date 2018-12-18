@@ -12,7 +12,8 @@ module Assembly
           integer: /\A-?\d+\z/,
           string: /\A'(.*)'\z/,
           arguments: /'[^']*'|[^,\s]+/,
-          label: /\A[a-z_]+:\z/
+          label: /\A[a-z0-9_]+:\z/,
+          subprogram: /\A[a-z0-9_]+\z/
         }.freeze
 
         def create(raw_line)
