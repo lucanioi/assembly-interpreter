@@ -3,7 +3,7 @@ module Assembly
     class << self
       MATCHERS = {
         comment: /;.*$/,
-        method: /\A([a-z0-9_]+)(?:\s+|\z)/,
+        instruction: /\A([a-z0-9_]+)(?:\s+|\z)/,
         arguments: /\A[a-z0-9_]+\s+(.+)/,
         argument: /'[^']*'|[^,\s]+/,
         register: /\A[a-z]+\z/,
@@ -21,6 +21,10 @@ module Assembly
           .map(&method(:parse_line))
       end
 
+      def label?(raw_line)
+        raw_line.match? MATCHERS[:label]
+      end
+
       private
 
       def remove_comments(raw_program)
@@ -30,18 +34,14 @@ module Assembly
       def parse_line(raw_line)
         return [raw_line.strip.to_sym] if label?(raw_line)
 
-        method = parse_method(raw_line)
+        instruction = parse_instruction(raw_line)
         args = parse_arguments(raw_line) if has_arguments?(raw_line)
 
-        [method, *args]
+        [instruction, *args]
       end
 
-      def label?(raw_line)
-        raw_line.match? MATCHERS[:label]
-      end
-
-      def parse_method(raw_line)
-        extract(raw_line, :method).to_sym
+      def parse_instruction(raw_line)
+        extract(raw_line, :instruction).to_sym
       end
 
       def extract(raw_line, matcher_type)

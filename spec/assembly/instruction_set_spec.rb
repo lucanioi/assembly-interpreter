@@ -2,6 +2,8 @@ describe Assembly::InstructionSet do
   subject(:instruction_set) { described_class.new(raw_program) }
   let(:out_of_bounds_error) { Assembly::Errors::InstructionOutOfBounds }
   let(:invalid_label_error) { Assembly::Errors::InvalidIdentifier }
+  let(:instruction_klass) { Assembly::Instructions::Instruction }
+  let(:label_klass) { Assembly::Instructions::Label }
   let(:raw_program) do
     <<~PROGRAM
       mov  a, 5
@@ -13,23 +15,11 @@ describe Assembly::InstructionSet do
 
   describe 'initialization' do
     it 'separates the program by lines' do
-      expect(get_instructions(instruction_set)).to have(4).items
+      expect(instruction_set.instructions).to have(4).items
     end
 
-    context 'when program includes comments' do
-      let(:raw_program) do
-        <<~PROGRAM
-          ; i am a comment
-          mov  a, 5
-          inc  a
-          call function ; comment
-          end
-        PROGRAM
-      end
-
-      it 'omits the comments from the instruction lines' do
-        expect(get_instructions(instruction_set)).to have(4).items
-      end
+    it 'creates executable instructions from a raw program' do
+      expect(instruction_set.instructions).to all( be_a(instruction_klass).or be_a(label_klass) )
     end
 
     context 'when program includes labels' do
@@ -60,7 +50,7 @@ describe Assembly::InstructionSet do
       end
 
       it 'includes the lables in the list of instructions' do
-        expect(get_instructions(instruction_set)).to have(12).items
+        expect(instruction_set.instructions).to have(12).items
       end
 
       it 'scans for labels and records their line numbers' do
@@ -70,18 +60,9 @@ describe Assembly::InstructionSet do
   end
 
   describe '#get' do
-    let(:instruction) { double(:instruction) }
-    let(:instruction_factory) { double(:instruction_factory) }
-
-    before do
-      stub_const('Assembly::Instructions::Factory', instruction_factory)
-      allow(instruction_factory).to receive(:create) { instruction }
-    end
-
     it 'returns the instruction at the given line number' do
-      expect(instruction_factory).to receive(:create).with('mov  a, 5')
-
-      expect(subject.get(0)).to eq instruction
+      expect(subject.get(0)).to be_a(instruction_klass)
+      expect(subject.get(0).to_s).to eq 'mov  a, 5'
     end
 
     context 'when the line number is out of bounds' do
@@ -124,9 +105,5 @@ describe Assembly::InstructionSet do
         expect(&invalid_label_call).to raise_error invalid_label_error
       end
     end
-  end
-
-  def get_instructions(instruction_set)
-    instruction_set.send(:instructions)
   end
 end

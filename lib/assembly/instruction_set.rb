@@ -1,14 +1,13 @@
  require_relative 'instructions/factory'
+ require_relative 'instructions/parser'
+ require_relative 'instructions/label'
 
 module Assembly
   class InstructionSet
-    COMMENT_MATCHER = /;.*$/
-    LABEL_MATCHER = /^[a-z0-9_]+:$/
-    EMPTY_STR = ''.freeze
-    LABEL_DELIMITER = ':'.freeze
+    attr_reader :instructions, :labels
 
-    def initialize(raw_program)
-      @instructions = parse_instructions(raw_program).freeze
+    def initialize(raw_instructions)
+      @instructions = create_instructions(raw_instructions)
       @labels = {}
       scan_labels
     end
@@ -16,8 +15,7 @@ module Assembly
     def get(line_number)
       instruction = instructions[line_number]
       raise Errors::InstructionOutOfBounds if instruction.nil?
-
-      Instructions::Factory.create(instruction)
+      instruction
     end
 
     def line_number(label:)
@@ -26,17 +24,13 @@ module Assembly
 
     private
 
-    attr_reader :instructions, :labels
-
-    def parse_instructions(raw_program)
-      remove_comments(raw_program)
-        .lines
-        .map(&:strip)
-        .reject(&:empty?)
+    def create_instructions(raw_instructions)
+      Parser.parse_instructions(raw_instructions)
+        .map(&method(:create_instruction))
     end
 
-    def remove_comments(raw_program)
-      raw_program.gsub(COMMENT_MATCHER, EMPTY_STR)
+    def create_instruction(parsed_instruction)
+      Instructions::Factory.create(*parsed_instruction)
     end
 
     def scan_labels
@@ -47,13 +41,12 @@ module Assembly
       labels.freeze
     end
 
-    def label?(line)
-      line.match? LABEL_MATCHER
+    def label?(instruction)
+      instruction.is_a? Instructions::Label
     end
 
     def add_label(label, label_index)
-      label = label.delete_suffix(LABEL_DELIMITER).to_sym
-      labels[label] = label_index
+      labels[label.identifier] = label_index
     end
   end
 end
