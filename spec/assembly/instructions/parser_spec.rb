@@ -1,4 +1,4 @@
-describe Assembly::Parser do
+describe Assembly::Instructions::Parser do
   subject(:parser) { described_module }
   let(:raw_program) do
     <<~PROGRAM

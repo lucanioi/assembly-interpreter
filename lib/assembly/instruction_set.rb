@@ -23,7 +23,7 @@ module Assembly
     private
 
     def create_instructions(raw_instructions)
-      Parser.parse_instructions(raw_instructions)
+      Instructions::Parser.parse_instructions(raw_instructions)
         .map(&method(:create_instruction))
     end
 
