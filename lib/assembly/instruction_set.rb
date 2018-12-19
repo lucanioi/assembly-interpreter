@@ -16,6 +16,7 @@ module Assembly
     def get(line_number)
       instruction = instructions[line_number]
       raise Errors::InstructionOutOfBounds if instruction.nil?
+
       Instructions::Factory.create(instruction)
     end
 
