@@ -1,12 +1,15 @@
 describe Assembly::Instructions::Factory do
   subject(:instruction_factory) { described_module }
-  let(:create_instruction) { subject.create(raw_instruction) }
+  let(:create_instruction) { subject.create(instruction, *arguments) }
+  let(:instruction) { :foo }
+  let(:arguments) { [] }
   let(:created_instruction) { create_instruction }
   let(:invalid_instruction_error) { Assembly::Errors::InvalidInstruction }
 
   describe '#create' do
     context 'given a valid instruction name' do
-      let(:raw_instruction) { 'mov   c, 4' }
+      let(:instruction) { :mov }
+      let(:arguments) { [:c, 4] }
 
       it 'creates an instance of the given instruction' do
         expect(created_instruction).to be_an_instance_of Assembly::Instructions::Mov
@@ -16,44 +19,21 @@ describe Assembly::Instructions::Factory do
         expect(created_instruction).to eq Assembly::Instructions::Mov.new(:c, 4)
       end
 
-      context 'when given strings as well as registers' do
-        let(:raw_instruction) { "msg   'mod(', a, ', ', b, ') = ', d" }
+      context 'given an invalid instruction name' do
+        let(:instruction) { :vom }
+        let(:arguments) { [:c, 'd'] }
 
-        it 'can identify string arguments ' do
-          expect(created_instruction).to eq Assembly::Instructions::Msg.new('mod(', :a, ', ', :b, ') = ', :d)
-        end
-      end
-
-      context 'when given varied number of spaces' do
-        let(:raw_instruction) { "msg   'mod(', a,    ', ',b, ') = ', d" }
-
-        it 'splits the arguments properly' do
-          expect(created_instruction).to eq Assembly::Instructions::Msg.new('mod(', :a, ', ', :b, ') = ', :d)
-        end
-      end
-
-      context 'when given invalid arguments' do
-        let(:raw_instruction) { "msg   'mod(, a, ', ', b, ') = ', d" }
-
-        it 'throws and error' do
+        it 'raises and error' do
           expect { create_instruction }.to raise_error invalid_instruction_error
         end
       end
-    end
 
-    context 'given an invalid instruction name' do
-      let(:raw_instruction) { 'vom  c, a' }
+      context 'when given a label' do
+        let(:instruction) { :'function:' }
 
-      it 'raises and error' do
-        expect { create_instruction }.to raise_error invalid_instruction_error
-      end
-    end
-
-    context 'when given a label' do
-      let(:raw_instruction) { 'function:' }
-
-      it 'returns a label object' do
-        expect(created_instruction).to eq label(:function)
+        it 'returns a label object' do
+          expect(created_instruction).to eq label(:function)
+        end
       end
     end
   end
