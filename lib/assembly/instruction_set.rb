@@ -13,9 +13,7 @@ module Assembly
     end
 
     def get(line_number)
-      instruction = instructions[line_number]
-      raise Errors::InstructionOutOfBounds if instruction.nil?
-      instruction
+      instructions[line_number] || (raise Errors::InstructionOutOfBounds)
     end
 
     def line_number(label:)
