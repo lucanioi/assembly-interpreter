@@ -17,6 +17,12 @@ module Assembly
       values[register] || (raise Errors::EmptyRegister)
     end
 
+    def to_s
+      values.reduce('') do |string, (register, value)|
+        "#{string}\n#{register}: #{value}"
+      end
+    end
+
     private
 
     attr_reader :values

@@ -29,11 +29,12 @@ module Assembly
     end
 
     def call_subprogram(subprogram)
-      ret_targets.push(instruction_pointer)
+      ret_targets.push(instruction_pointer) unless current_subprogram == subprogram
       jump_to_subprogram(subprogram)
     end
 
     def jump_to_subprogram(subprogram)
+      @current_subprogram = subprogram
       @instruction_pointer = instruction_set.line_number(label: subprogram)
     end
 
@@ -54,8 +55,14 @@ module Assembly
       freeze
     end
 
+    def to_s
+      "line: #{instruction_pointer}\n" \
+      "ret targets: #{ret_targets}\n" \
+      "registry:\n#{registry}"
+    end
+
     private
 
-    attr_reader :instruction_set
+    attr_reader :instruction_set, :current_subprogram
   end
 end

@@ -187,7 +187,7 @@ describe Assembly::Interpreter do
             je    continue
             mul   c, a
             dec   d
-            jmp  proc_func
+            call  proc_func
 
         continue:
             ret
