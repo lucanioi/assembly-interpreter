@@ -23,3 +23,20 @@ module Assembly
     end
   end
 end
+
+def visualize(prog_str, line_number)
+  str = prog_str.lines.reject do |line|
+    line.strip.empty?
+  end.yield_self do |lines|
+    lines.map!.with_index do |line, i|
+      i == line_number ? line : line.prepend('    ')
+    end.tap do |lines|
+      lines[line_number].prepend(' >> ')
+    end
+  end.join
+
+  puts `clear`
+  puts str
+  sleep 0.1
+end
+

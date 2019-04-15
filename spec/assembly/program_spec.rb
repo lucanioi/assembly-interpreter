@@ -53,16 +53,6 @@ describe Assembly::Program do
 
       expect(subject.ret_targets).to eq [0, 15]
     end
-
-    context 'when a subprogram is called recursively from within itself' do
-      it 'does not store the current pointer' do
-        subject.call_subprogram(:function)
-        subject.call_subprogram(:print)
-        subject.call_subprogram(:print)
-
-        expect(subject.ret_targets).to eq [0, 15]
-      end
-    end
   end
 
   describe '#jump_to_subprogram' do

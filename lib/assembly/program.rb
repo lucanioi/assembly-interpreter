@@ -29,7 +29,7 @@ module Assembly
     end
 
     def call_subprogram(subprogram)
-      ret_targets.push(instruction_pointer) unless current_subprogram == subprogram
+      ret_targets.push(instruction_pointer)
       jump_to_subprogram(subprogram)
     end
 
