@@ -1,5 +1,11 @@
+require '/Users/Luca/code/assembly-interpreter/codewars_submission.rb'
+
 describe Assembly::Interpreter do
   let(:interpreter) { described_module }
+
+  def run_interpreter(program)
+    interpreter.interpret(program)
+  end
 
   describe '#interpret' do
     it 'simple program' do
@@ -16,7 +22,7 @@ describe Assembly::Interpreter do
             ret
       PROGRAM
 
-      expect(interpreter.interpret(simple_program)).to eq('(5+1)/2 = 3')
+      expect(run_interpreter(simple_program)).to eq('(5+1)/2 = 3')
     end
 
     it 'factorial program' do
@@ -40,7 +46,7 @@ describe Assembly::Interpreter do
             ret
       PROGRAM
 
-      expect(interpreter.interpret(factorial_program)).to eq('5! = 120')
+      expect(run_interpreter(factorial_program)).to eq('5! = 120')
     end
 
     it 'fibonacci program' do
@@ -76,7 +82,7 @@ describe Assembly::Interpreter do
             ret
       PROGRAM
 
-      expect(interpreter.interpret(fibonacci_program)).to eq('Term 8 of Fibonacci series is: 21')
+      expect(run_interpreter(fibonacci_program)).to eq('Term 8 of Fibonacci series is: 21')
     end
 
     it 'modulo program' do
@@ -97,7 +103,7 @@ describe Assembly::Interpreter do
             ret
       PROGRAM
 
-      expect(interpreter.interpret(modulo_program)).to eq('mod(11, 3) = 2')
+      expect(run_interpreter(modulo_program)).to eq('mod(11, 3) = 2')
     end
 
     it 'gcd program' do
@@ -149,7 +155,7 @@ describe Assembly::Interpreter do
             ret
       PROGRAM
 
-      expect(interpreter.interpret(gcd_program)).to eq('gcd(81, 153) = 9')
+      expect(run_interpreter(gcd_program)).to eq('gcd(81, 153) = 9')
     end
 
     it 'fail program' do
@@ -169,7 +175,7 @@ describe Assembly::Interpreter do
             msg 'This program should return -1'
       PROGRAM
 
-      expect(interpreter.interpret(fail_program)).to eq(-1)
+      expect(run_interpreter(fail_program)).to eq(-1)
     end
 
     it 'exponent program' do
@@ -197,9 +203,7 @@ describe Assembly::Interpreter do
             ret
       PROGRAM
 
-      # should workd with 'call proc_func' on line 12
-
-      expect(interpreter.interpret(exponent_program)).to eq('2^10 = 1024')
+      expect(run_interpreter(exponent_program)).to eq('2^10 = 1024')
     end
   end
 end
